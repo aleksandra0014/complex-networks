@@ -53,11 +53,11 @@ def create_file(album_ids):
             pairs = combinations(albums, 2)
             album_pairs.update(pairs)
 
-    with open('albums_pairs.txt', 'w', encoding='utf-8') as f:
+    with open('albums_pairs2.txt', 'w', encoding='utf-8') as f:
         for album1, album2 in album_pairs:
-            f.write(f"{album1}, {album2}\n")
+            f.write(f"{album1}; {album2}\n")
 
-    with open('all_albums.txt', 'w', encoding='utf-8') as f:
+    with open('all_albums2.txt', 'w', encoding='utf-8') as f:
         for id in album_ids:
             f.write(f"{sp.album(album_id=id)['name']}\n")
 
