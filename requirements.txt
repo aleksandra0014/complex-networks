@@ -1,2 +1,7 @@
 spotipy
 pandas 
+networkx
+random
+streamlit
+combinations
+dotenv
