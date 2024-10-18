@@ -5,3 +5,7 @@ random
 streamlit
 combinations
 dotenv
+numpy 
+matplotlib
+pyviz
+webbrowser

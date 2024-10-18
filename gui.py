@@ -1,5 +1,5 @@
 import streamlit as st
-from main import * 
+from main_Graph import * 
 from przeplywy import *
 
 albums = []
@@ -38,7 +38,7 @@ def main_func():
 
     st.subheader('Stwórz podgraf i sprawdź czy jest eulerowski')
     w = st.selectbox('Wybierz wierzchołek (album)', albums)
-    subg = g.create_subgraph_and_eucli(w)
+    subg = g.create_subgraph(w)
     st.text(iseulerian(subg))
 
     st.markdown("<br>", unsafe_allow_html=True) 

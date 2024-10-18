@@ -39,7 +39,7 @@ class Graph:
         except nx.NodeNotFound:
             return f'Jeden z wpisanych wierzchołków nie istnieje'
     
-    def create_subgraph_and_eucli(self, node):
+    def create_subgraph(self, node):
         if node in self.graph:
             neighbours = list(self.graph.neighbors(node))
             nodes = [node] + neighbours
@@ -69,5 +69,5 @@ if __name__ == '__main__':
     g.neighbours('SUCKER')
     print(g.shortest_path('SUCKER' ,'1999')) 
     print(iseulerian(g))
-    subg = g.create_subgraph_and_eucli('SUCKER')
+    subg = g.create_subgraph('SUCKER')
     print(iseulerian(subg))
