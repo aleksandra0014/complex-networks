@@ -1,6 +1,6 @@
 import streamlit as st
 from main_Graph import * 
-from przeplywy import *
+from digraph_and_flows import *
 
 albums = []
 with open('all_albums2.txt', 'r') as f:
