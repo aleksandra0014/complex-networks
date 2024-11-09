@@ -52,6 +52,78 @@ class Graph:
     def neighbours(self, node):
         print(list(self.graph.neighbors(node)))
 
+    def degree2(self):
+        return int(self.graph.number_of_nodes())
+
+    def size(self):
+        return self.graph.number_of_edges()
+    
+    def density(self):
+        return 2 * self.size() / (self.degree2() * (self.degree2() - 1))
+    
+    def avg_and_diameter(self):
+        connected_components = list(nx.connected_components(self.graph))
+        
+        total_path_sum = 0
+        total_pairs = 0
+        len_of_the_longest = 0
+        
+        for component in connected_components:
+            subgraph = self.graph.subgraph(component)  
+            path_sum = 0
+            pairs = 0
+            
+            for source in subgraph:
+                lengths = nx.single_source_shortest_path_length(subgraph, source)
+                for i in lengths.values():
+                    if i > len_of_the_longest:
+                        len_of_the_longest = i
+                path_sum += sum(lengths.values())
+                pairs += len(lengths) - 1  
+                
+            total_path_sum += path_sum
+            total_pairs += pairs
+
+        if total_pairs > 0:
+            return total_path_sum / total_pairs, len_of_the_longest
+        else:
+            return float('inf')  
+    
+    def centrality_measures_n(self, node):
+
+        # degree - ile połączonych z nim wierzchołków 
+        degree = len(list(self.graph.neighbors(node)))
+
+        # bliskość - odwrotność śreniej odl od innych wierzchołków
+        centrality = nx.closeness_centrality(self.graph)[node]
+
+        # pośrednictwo - liczba najkrótszych ścieżek przechodzących przez ten wierzchołek
+        betweenness = nx.betweenness_centrality(self.graph)[node]
+
+        return f'\nStopień: {degree}, \nBliskość: {centrality}, \nPośrednictwo: {betweenness}'
+
+    def centrality_measures_k(self, k):
+
+        edge_betweenness = nx.edge_betweenness_centrality(self.graph)[k]
+
+        return f'\nPośrednictwo: {edge_betweenness}'
+    
+    def eigenvector_centrality(self, node):
+
+        '''Centralność wektora własnego mierzy wpływ wierzchołka w grafie, biorąc pod uwagę nie tylko 
+        liczbę jego sąsiadów, ale także wpływ tych sąsiadów. Węzeł o wysokiej centralności wektora własnego
+        jest połączony z innymi węzłami, które również mają dużą centralność.'''
+    
+        e = nx.eigenvector_centrality(self.graph)[node]
+
+        return f'\nCentralność wektora własnego: {e}'
+    
+    def page_rank(self, node):
+
+        p = nx.pagerank(self.graph, alpha=0.85)[node]
+
+        return f'\nPagerank: {p}'
+    
 def iseulerian(g):
     if isinstance(g, Graph):
         g = g.graph  # jesli graf to instacja klasy to trzeba odwołać się do prawidłowego sformułownia graph
@@ -64,10 +136,27 @@ def iseulerian(g):
 
 if __name__ == '__main__':
     g = Graph()
-    g.addw_from_file(r'C:\Users\aleks\OneDrive\Documents\SIECI_ZLOZONE\all_albums2.txt')
-    g.addk_from_file(r'C:\Users\aleks\OneDrive\Documents\SIECI_ZLOZONE\albums_pairs2.txt')
-    g.neighbours('SUCKER')
-    print(g.shortest_path('SUCKER' ,'1999')) 
-    print(iseulerian(g))
-    subg = g.create_subgraph('SUCKER')
-    print(iseulerian(subg))
+    g.addw_from_file(r'C:\Users\aleks\OneDrive\Documents\SIECI_ZLOZONE\dane\all2.txt')
+    g.addk_from_file(r'C:\Users\aleks\OneDrive\Documents\SIECI_ZLOZONE\dane\pairs2.txt')
+    print('\nWŁASNOŚCI GRAFU')
+    print('Stopień:')
+    print(g.degree2())
+    print('\nRozmiar')
+    print(g.size())
+    print('\nGęstość')
+    print(g.density())
+    print('\nŚrednica')
+    print(g.avg_and_diameter()[1])
+    print('\nŚrednia dł. najkrótszych ścieżek')
+    print(g.avg_and_diameter()[0])
+    print('---'*20)
+    node = 'SUCKER'
+    print(f'\nMIARY CENTRALNOŚCI dla węzła {node}')
+    print(g.centrality_measures_n(node))
+    print(g.eigenvector_centrality(node))
+    print(g.page_rank(node))
+    print('---'*20)
+    k = ('Hard II Love', 'Grateful')
+    print(f'\nMIARY CENTRALNOŚCI dla krawędzi {k}')
+    print(g.centrality_measures_k(k))
+    
