@@ -53,12 +53,40 @@ def create_file(album_ids, file_name1, file_name2):
         for id in album_ids:
             f.write(f"{sp.album(album_id=id)['name']}\n")
 
+def create_file_for_bipartite_graph(album_ids, file_artist, file_albums, file_pais):
+    artist_album_dict = {}
+    for album_id in album_ids:
+        artists_from_album(album_id=album_id, artist_album_dict=artist_album_dict)
+    artist_set = set()
+    albums_set = set()
+    pairs_set = set()
+        
+    for i in artist_album_dict.items():
+        for album in i[1]:
+            artist_set.add(i[0])
+            albums_set.add(album)
+            pairs_set.add(i[0] + '; ' + album)
+
+    with open(file_artist, 'w', encoding='utf-8') as f:
+        for a in artist_set:
+            f.write(f'{a}\n')
+        
+    with open(file_albums, 'w', encoding='utf-8') as f:
+        for a in albums_set:
+            f.write(f'{a}\n')
+
+    with open(file_pais, 'w', encoding='utf-8') as f:
+        for a in pairs_set:
+            f.write(f'{a}\n')        
+        
+        
+
 if __name__ == '__main__':
     # pobieranie piosenek 
     recommendations1= sp.recommendations(seed_genres=['pop'], limit=100)
-    recommendations2 = sp.recommendations(seed_genres=['hip-hop'], limit=100)
-    recommendations3 = sp.recommendations(seed_genres=['rock'], limit=100)
-    list_of_rec = [recommendations1, recommendations2, recommendations3]
-
+    #recommendations2 = sp.recommendations(seed_genres=['hip-hop'], limit=100)
+    #recommendations3 = sp.recommendations(seed_genres=['rock'], limit=100)
+    list_of_rec = [recommendations1]
     album_ids = get_album_id(list_of_rec=list_of_rec)
-    create_file(album_ids=album_ids, file_name1='albums_pairs3.txt', file_name2='all_albums3.txt')
+    create_file_for_bipartite_graph(album_ids, 'dane/dane_dwudzielny/artists.txt', 'dane/dane_dwudzielny/albums.txt', 'dane/dane_dwudzielny/pairs.txt' )
+    #create_file(album_ids=album_ids, file_name1='albums_pairs3.txt', file_name2='all_albums3.txt')
