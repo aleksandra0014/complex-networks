@@ -150,13 +150,17 @@ if __name__ == '__main__':
     print('\nŚrednia dł. najkrótszych ścieżek')
     print(g.avg_and_diameter()[0])
     print('---'*20)
-    node = 'SUCKER'
+    node = input('Podaj nazwe węzła, jeśli nie wiesz jaki to wpisz 0: ')
+    if node == '0':
+        node = 'Grateful'
     print(f'\nMIARY CENTRALNOŚCI dla węzła {node}')
     print(g.centrality_measures_n(node))
     print(g.eigenvector_centrality(node))
     print(g.page_rank(node))
     print('---'*20)
-    k = ('Hard II Love', 'Grateful')
+    k = input('Podaj krawędź, jeśli nie wiesz jaką to wpisz 0: ')
+    if k == '0':
+        k = ('Hard II Love', 'Grateful')
     print(f'\nMIARY CENTRALNOŚCI dla krawędzi {k}')
     print(g.centrality_measures_k(k))
     
