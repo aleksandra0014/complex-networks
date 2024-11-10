@@ -21,14 +21,18 @@ class Graph:
                 line = line.strip()
                 self.add_w(line)
 
-    def addk_from_file(self, file):
+    def addk_from_file(self, file, bi=False):
         with open(file, 'r') as f:
             for line in f:
-                line = line.strip()
-                w1, w2 = line.split(sep=';')
-                w1 = w1.strip()  
+                line = line.strip()  
+                w1, w2 = line.split(sep=';')  
+                w1 = w1.strip()
                 w2 = w2.strip()
-                self.add_k(w1, w2)
+                
+                if bi and w1 == w2:  # Jeśli `bi` jest prawdą i w1 == w2, przejdź do następnej iteracji
+                    continue
+                
+                self.add_k(w1, w2)  
 
     def shortest_path(self, start, end):
         try:
