@@ -1,4 +1,4 @@
-from data_extraction import *
+from src.data_extraction import *
 import numpy as np
 
 recommendations= sp.recommendations(seed_genres=['pop'], limit=100)

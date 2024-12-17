@@ -65,7 +65,8 @@ class Graph:
     def density(self):
         return 2 * self.size() / (self.degree2() * (self.degree2() - 1))
     
-    def avg_and_diameter(self):
+    def avg_and_diameter(self): # Średnica = długość najdłuższej z najkrótszych ścieżek
+        # Średnia długość ścieżki (z najkrótszych ścieżek dla wszystkich par )
         connected_components = list(nx.connected_components(self.graph))
         
         total_path_sum = 0
@@ -95,18 +96,40 @@ class Graph:
     
     def centrality_measures_n(self, node):
 
-        # degree - ile połączonych z nim wierzchołków 
+        # degree - ile połączonych z nim wierzchołków - dobry hub 
         degree = len(list(self.graph.neighbors(node)))
 
-        # bliskość - odwrotność śreniej odl od innych wierzchołków
+        # bliskość - odwrotność śreniej odl od innych wierzchołków - oznacza, że wierzchołek szybko osiąga inne wierzchołki, co czyni go efektywnym w przekazywaniu informacji.
         centrality = nx.closeness_centrality(self.graph)[node]
 
-        # pośrednictwo - liczba najkrótszych ścieżek przechodzących przez ten wierzchołek
+        # pośrednictwo - liczba najkrótszych ścieżek przechodzących przez ten wierzchołek. Może identyfikować "mosty" w grafie, które spajają różne grupy.
         betweenness = nx.betweenness_centrality(self.graph)[node]
 
         return f'\nStopień: {degree}, \nBliskość: {centrality}, \nPośrednictwo: {betweenness}'
+    
+    def max_centrality(self):
+        d = 0
+        c = 0 
+        b = 0
+        node_d = None
+        node_c = None
+        node_b = None
 
+        for i in self.graph.nodes:
+            if len(list(self.graph.neighbors(i))) > d:
+                d = len(list(self.graph.neighbors(i)))
+                node_d = i 
+            if c < nx.closeness_centrality(self.graph)[i]:
+                c = nx.closeness_centrality(self.graph)[i]
+                node_c = i
+            if b < nx.betweenness_centrality(self.graph)[i]:
+                b = nx.betweenness_centrality(self.graph)[i]
+                node_b = i
+        return f'\nStopień: {d}  node: {node_d}, \nBliskość: {c} node: {node_c}, \nPośrednictwo: {b}  node: {node_b}' 
+    
     def centrality_measures_k(self, k):
+
+        # Pośrednictwo = liczba / odsetek najkrótszych DRÓG przechodzących przez krawędź
 
         edge_betweenness = nx.edge_betweenness_centrality(self.graph)[k]
 
@@ -161,6 +184,9 @@ if __name__ == '__main__':
     print(g.centrality_measures_n(node))
     print(g.eigenvector_centrality(node))
     print(g.page_rank(node))
+    print()
+    print('MAX')
+    print(g.max_centrality())
     print('---'*20)
     k = input('Podaj krawędź, jeśli nie wiesz jaką to wpisz 0: ')
     if k == '0':
