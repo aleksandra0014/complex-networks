@@ -17,7 +17,8 @@ Matplotlib/Seaborn: visualization of results.
 Spotify API: retrieving data about artists and their collaborations.
 Pyviz: additional graph analysis and visualization.
 
-spotify-network-analysis/
+## Project structure
+complex-networks/
 ├── data/               # Input data
 ├── results/            # Analysis results
 ├── basic/              # Code for learning complex networks step by step 
