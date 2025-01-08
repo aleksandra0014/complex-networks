@@ -16,17 +16,16 @@ NetworkX: library for network analysis.
 Matplotlib/Seaborn: visualization of results.
 Spotify API: retrieving data about artists and their collaborations.
 Pyviz: additional graph analysis and visualization.
+## Project Structure
 
-## Project structure
-complex-networks/
+```bash
+spotify-network-analysis/
 ├── data/               # Input data
 ├── results/            # Analysis results
-├── basic/              # Code for learning complex networks step by step 
 ├── src/                # Source code
-│   ├── data_extraction2.py   # Spotify API handling
-│   ├── main_Graph.py  # Graph functions 
-│   ├── EDA.ipynb     # Analysis data
-├── img/                 # Images and plots from results
-├── requirements.txt   # List of dependencies
-├── README.md          # Project documentation
+│   ├── spotify_api.py       # Spotify API handling
+│   ├── network_analysis.py  # Graph analysis
+│   ├── visualization.py     # Result visualization
+├── requirements.txt    # List of dependencies
+├── README.md           # Project documentation
 
